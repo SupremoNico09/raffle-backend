@@ -10,10 +10,19 @@ class Raffle extends Model
     use HasFactory;
     protected $table = 'raffles';
     protected $fillable = [
-        'raffle_prize',
+        'prize_id',
+        'prize_name',
         'ticket',
         'participant',
         'description',
         'image',
     ];
+
+    protected $with = ['prizes'];
+    public function prizes()
+    {
+        return $this->belongsTo(Prize::class, 'prize_id' , 'id');
+    }
+
+    
 }

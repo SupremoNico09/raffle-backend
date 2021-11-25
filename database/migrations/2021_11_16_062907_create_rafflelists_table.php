@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePrizesTable extends Migration
+class CreateRafflelistsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreatePrizesTable extends Migration
      */
     public function up()
     {
-        Schema::create('prizes', function (Blueprint $table) {
+        Schema::create('rafflelists', function (Blueprint $table) {
             $table->id();
-            $table->string('type');
-            $table->string('prize_name')->nullable();
-            $table->longText('description')->nullable();
-            $table->string('availability');
+            $table->string('user_id');
+            $table->integer('raffle_id');
+            $table->integer('ticket_qty')->default(1);
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreatePrizesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('prizes');
+        Schema::dropIfExists('rafflelists');
     }
 }

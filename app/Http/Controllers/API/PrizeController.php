@@ -51,7 +51,7 @@ class PrizeController extends Controller
     {   
             $validator = Validator::make($request->all(), [
                 'type'=>'required|max:191',
-                'prize_name'=>'required|max:191',
+
             ]);
             if($validator->fails())
             {
@@ -82,7 +82,7 @@ class PrizeController extends Controller
     {
                 $validator = Validator::make($request->all(), [
                     'type'=>'required|max:191',
-                    'prize_name'=>'required|max:191',
+
                 ]);
                 if($validator->fails())
                 {

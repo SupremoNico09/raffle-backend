@@ -14,7 +14,8 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name'=>'required|max:191',
+            'firstname'=>'required|max:191',
+            'lastname'=>'required|max:191',
             'email'=>'required|email|max:191|unique:users,email',
             'password'=>'required|min:8', 
         ]);
@@ -28,9 +29,11 @@ class AuthController extends Controller
         else 
         {
             $user = User::create([
-                'name'=>$request->name,
+                'firstname'=>$request->firstname,
+                'lastname'=>$request->lastname,
                 'email'=>$request->email,
                 'password'=>Hash::make($request->password),
+                'role_as'=>$request->role_as,
             ]);
 
             $token = $user->createToken($user->email.'_Token')->plainTextToken;

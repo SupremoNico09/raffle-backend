@@ -15,11 +15,13 @@ class CreateRafflesTable extends Migration
     {
         Schema::create('raffles', function (Blueprint $table) {
             $table->id();
-            $table->string('raffle_prize');
+            $table->integer('prize_id');
+            $table->string('prize_name');
             $table->string('ticket');
-            $table->integer('participant');
-            $table->longText('description');
+            $table->integer('participant')->default('0');
+            $table->mediumText('description')->nullable();
             $table->string('image')->nullable();
+            $table->date('activate');
             $table->timestamps();
         });
     }
