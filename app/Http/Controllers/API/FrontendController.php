@@ -13,6 +13,15 @@ use Illuminate\Http\Request;
 class FrontendController extends Controller
 {
 
+    public function lists()
+    {
+        $raffles = Raffle::all();
+        return response()->json([
+            'status' => 200,
+            'raffles' => $raffles
+        ]);
+    }
+    
     public function prizes()
     {
         $prizes = Prize::where('availability', 'Yes')->get();
@@ -63,6 +72,33 @@ class FrontendController extends Controller
             } 
             else 
             {
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'No Raffle Available'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No Such Prizes Found'
+            ]);
+        }
+    }
+
+    public function drawParticipants($prize_name)
+    {
+        $raffles = Raffle::where('prize_name', $prize_name)->where('availability', 'Yes')->first();
+        if ($raffles) {
+            $ticketitems = Ticketitems::where('raffle_id', $raffles->id)->get();
+            if ($ticketitems) {
+                return response()->json([
+                    'status' => 200,
+                    'ticketitems_data' => [
+                        'ticketitems' => $ticketitems,
+                        'raffles' => $raffles,
+                    ]
+                ]);
+            } else {
                 return response()->json([
                     'status' => 400,
                     'message' => 'No Raffle Available'

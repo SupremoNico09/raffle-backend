@@ -16,6 +16,9 @@ Route::post('login', [AuthController::class, 'login']);
 Route::get('getPrizes',[FrontendController::class, 'prizes']);
 Route::get('fetchraffles/{type}',[FrontendController::class, 'raffles']);
 Route::get('view-raffle/{prizes_type}/{raffles_prize_name}',[FrontendController::class, 'viewraffle']); 
+Route::get('raffledrawlists', [FrontendController::class, 'lists']);
+Route::get('drawparticipants/{prize_name}', [FrontendController::class, 'drawParticipants']);
+
 
 
 

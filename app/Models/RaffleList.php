@@ -21,4 +21,7 @@ class RaffleList extends Model
     {
         return $this->belongsTo(Raffle::class, 'raffle_id', 'id');
     }
+
+
+    
 }
