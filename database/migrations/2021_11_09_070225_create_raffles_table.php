@@ -20,8 +20,9 @@ class CreateRafflesTable extends Migration
             $table->string('ticket');
             $table->integer('participant')->default('0');
             $table->mediumText('description')->nullable();
-            $table->string('image')->nullable();
             $table->date('activate');
+            $table->string('image')->nullable();
+            $table->dateTime('activate');
             $table->timestamps();
         });
     }

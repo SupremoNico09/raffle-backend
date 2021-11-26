@@ -32,6 +32,7 @@ class RaffleController extends Controller
             'prize_name' => 'required|max:191',
             'ticket' => 'required|max:191',
             'participant' => 'required|max:191',
+            'activate' => 'required|max:191',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
@@ -56,6 +57,7 @@ class RaffleController extends Controller
             }
 
             $raffle->description = $request->input('description');
+            $raffle->activate = $request->input('activate');
             $raffle->save();
 
             return response()->json([
@@ -116,6 +118,7 @@ class RaffleController extends Controller
                 }
 
                 $raffle->description = $request->input('description');
+                $raffle->activate = $request->input('activate');
                 $raffle->update();
 
                 return response()->json([

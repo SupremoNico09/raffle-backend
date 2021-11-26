@@ -15,6 +15,7 @@ class Raffle extends Model
         'ticket',
         'participant',
         'description',
+        'activate',
         'image',
     ];
 
