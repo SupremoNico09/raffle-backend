@@ -9,6 +9,7 @@ use App\Http\Controllers\API\RaffleController;
 use App\Http\Controllers\API\FrontendController;
 use App\Http\Controllers\API\ListController;
 use App\Http\Controllers\API\ParticipantController;
+use App\Http\Controllers\API\WinnerController;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
@@ -59,6 +60,9 @@ Route::middleware(['auth:sanctum','isAPIAdmin'])->group(function () {
     Route::get('view-participants', [ParticipantController::class, 'tickets']);
     Route::delete('delete-participant/{id}', [ParticipantController::class, 'deleteParticipant']);
     Route::get('fetchparticipants/{prize_name}', [ParticipantController::class, 'fetchParticipants']);
+
+    //Winners
+    Route::post('post-winner', [WinnerController::class, 'postwinner']);
 
 
 

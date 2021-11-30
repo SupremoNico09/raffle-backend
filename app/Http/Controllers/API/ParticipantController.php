@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Raffle;
 use App\Models\Ticket;
-use App\Models\Ticketitems;
+use App\Models\tickets;
 use Illuminate\Http\Request;
 
 class ParticipantController extends Controller
@@ -43,12 +43,12 @@ class ParticipantController extends Controller
     {
         $raffles = Raffle::where('prize_name', $prize_name)->where('availability', 'Yes')->first();
         if ($raffles) {
-            $ticketitems = Ticketitems::where('raffle_id', $raffles->id)->get();
-            if ($ticketitems) {
+            $tickets = Ticket::where('raffle_id', $raffles->id)->get();
+            if ($tickets) {
                 return response()->json([
                     'status' => 200,
-                    'ticketitems_data' => [
-                        'ticketitems' => $ticketitems,
+                    'tickets_data' => [
+                        'tickets' => $tickets,
                         'raffles' => $raffles,
                     ]
                 ]);

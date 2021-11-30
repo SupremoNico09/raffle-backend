@@ -10,15 +10,11 @@ class Ticket extends Model
     use HasFactory;
     protected $table = 'tickets';
     protected $fillable = [
-        'user_id',
+        'raffle_id',
         'firstname',
         'lastname',
         'email',
         'phone',
-        'street',
-        'house',
-        'city',
-        'zipcode',
         'payment_id',
         'payment_mode',
         'tracking_no',

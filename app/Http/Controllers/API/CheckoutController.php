@@ -13,106 +13,80 @@ class CheckoutController extends Controller
 {
     public function placeticket(Request $request)
     {
-        if (auth('sanctum')->check()) {
-            $validator = Validator::make($request->all(), [
-                'firstname' => 'required|max:191',
-                'lastname' => 'required|max:191',
-                'email' => 'required|max:191',
-                'phone' => 'required|max:191',
-                'street' => 'required|max:191',
-                'house' => 'required|max:191',
-                'city' => 'required|max:191',
-                'zipcode' => 'required|max:191',
 
-            ]);
+        $validator = Validator::make($request->all(), [
+            'firstname' => 'required|max:191',
+            'lastname' => 'required|max:191',
+            'email' => 'required|max:191',
+            'phone' => 'required|max:191',
 
-            if ($validator->fails()) {
-                return response()->json([
-                    'status' => 422,
-                    'errors' => $validator->messages(),
-                ]);
-            } else {
 
-                $user_id = auth('sanctum')->user()->id;
-                $ticket = new Ticket;
-                $ticket->user_id = $user_id;
-                $ticket->firstname = $request->firstname;
-                $ticket->lastname = $request->lastname;
-                $ticket->email = $request->email;
-                $ticket->phone = $request->phone;
-                $ticket->street = $request->street;
-                $ticket->house = $request->house;
-                $ticket->city = $request->city;
-                $ticket->zipcode = $request->zipcode;
+        ]);
 
-                $ticket->payment_mode = $request->payment_mode;
-                $ticket->tracking_no = 'tombola' . rand(1111, 9999);
-                $ticket->save();
-
-                $rafflelists = RaffleList::where('user_id', $user_id)->get();
-
-                $ticketitems = [];
-                foreach ($rafflelists as $item) {
-                    $ticketitems[] = [
-                        'raffle_id' => $item->raffle_id,
-                        'qty' => $item->ticket_qty,
-                        'price' => $item->raffle->ticket,
-                    ];
-
-                    $item->raffle->update([
-                        'participant' => $item->raffle->participant + $item->ticket_qty
-                    ]);
-                }
-                $ticket->ticketitems()->createMany($ticketitems);
-                RaffleList::destroy($rafflelists);
-
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'Ticket Placed Successfully',
-                ]);
-            }
-        } else {
+        if ($validator->fails()) {
             return response()->json([
-                'status' => 401,
-                'message' => 'Login to Continue',
+                'status' => 422,
+                'errors' => $validator->messages(),
+            ]);
+        } else {
+
+            $ticket = new Ticket;
+            $ticket->raffle_id = $request->raffle_id;
+            $ticket->firstname = $request->firstname;
+            $ticket->lastname = $request->lastname;
+            $ticket->email = $request->email;
+            $ticket->phone = $request->phone;
+
+
+            $ticket->payment_mode = $request->payment_mode;
+            $ticket->tracking_no = 'tombola' . rand(1111, 9999);
+            $ticket->save();
+
+            // $rafflelists = RaffleList::where('user_id', $user_id)->get();
+
+            // $ticketitems = [];
+            // foreach ($rafflelists as $item) {
+            //     $ticketitems[] = [
+            //         'raffle_id' => $item->raffle_id,
+            //         'qty' => $item->ticket_qty,
+            //         'price' => $item->raffle->ticket,
+            //     ];
+
+            //     $item->raffle->update([
+            //         'participant' => $item->raffle->participant + $item->ticket_qty
+            //     ]);
+            // }
+            // $ticket->ticketitems()->createMany($ticketitems);
+            // RaffleList::destroy($rafflelists);
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Ticket Placed Successfully',
             ]);
         }
     }
 
     public function validateTicket(Request $request)
     {
-        if (auth('sanctum')->check()) {
-            $validator = Validator::make($request->all(), [
-                'firstname' => 'required|max:191',
-                'lastname' => 'required|max:191',
-                'email' => 'required|max:191',
-                'phone' => 'required|max:191',
-                'street' => 'required|max:191',
-                'house' => 'required|max:191',
-                'city' => 'required|max:191',
-                'zipcode' => 'required|max:191',
 
-            ]);
+        $validator = Validator::make($request->all(), [
+            'firstname' => 'required|max:191',
+            'lastname' => 'required|max:191',
+            'email' => 'required|max:191',
+            'phone' => 'required|max:191',
 
-            if ($validator->fails()) {
-                return response()->json([
-                    'status' => 422,
-                    'errors' => $validator->messages(),
-                ]);
-            } 
-            else 
-            {
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'Form Validated Successfully',
-                ]);
-            }
-        } 
-        else 
-        {
+
+        ]);
+
+        if ($validator->fails()) {
             return response()->json([
-                'status' => 401,
-                'message' => 'Login to Continue',
+                'status' => 422,
+                'errors' => $validator->messages(),
+            ]);
+        } else {
+            return response()->json([
+                'status' => 200,
+                'message' => 'Form Validated Successfully',
             ]);
         }
     }
