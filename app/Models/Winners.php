@@ -13,4 +13,12 @@ class Winners extends Model
         'raffle_id',
         'tracking_no',
     ];
+
+
+    protected $with = ['tickets'];
+    public function tickets()
+    {
+        return $this->belongsTo(Ticket::class, 'tracking_no' , 'tracking_no');
+    }
+
 }

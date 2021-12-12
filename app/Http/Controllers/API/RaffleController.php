@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use File;
 use Symfony\Contracts\Service\Attribute\Required;
-
+use App\Events\WheelSpin;
 class RaffleController extends Controller
 {
 
@@ -150,6 +150,15 @@ class RaffleController extends Controller
                 'message' => 'No Prize Id Found',
             ]);
         }
+    }
+
+
+    public function spin()
+    {
+        
+        event(new WheelSpin(true));
+
+        return [];
     }
 
 }

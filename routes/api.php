@@ -9,7 +9,11 @@ use App\Http\Controllers\API\RaffleController;
 use App\Http\Controllers\API\FrontendController;
 use App\Http\Controllers\API\ListController;
 use App\Http\Controllers\API\ParticipantController;
+use App\Http\Controllers\API\WheelController;
 use App\Http\Controllers\API\WinnerController;
+
+
+
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
@@ -18,11 +22,7 @@ Route::get('getPrizes',[FrontendController::class, 'prizes']);
 Route::get('fetchraffles/{type}',[FrontendController::class, 'raffles']);
 Route::get('view-raffle/{prizes_type}/{raffles_prize_name}',[FrontendController::class, 'viewraffle']); 
 Route::get('raffledrawlists', [FrontendController::class, 'lists']);
-Route::get('drawparticipants/{prize_name}', [FrontendController::class, 'drawParticipants']);
-
-
-
-
+Route::get('draw/{prize_name}', [FrontendController::class, 'drawParticipants']);
 
 
 Route::post('add-to-list', [ListController::class, 'addtolist']);
@@ -34,7 +34,12 @@ Route::post('validate-ticket', [CheckoutController::class, 'validateTicket']);
 Route::post('place-ticket', [CheckoutController::class, 'placeticket']);
 
 
-Route::middleware(['auth:sanctum','isAPIAdmin'])->group(function () {
+
+
+
+
+
+Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/checkingAuthenticated' , function () {
         return response()->json(['message'=>'You are in', 'status'=>200], 200);
@@ -60,14 +65,11 @@ Route::middleware(['auth:sanctum','isAPIAdmin'])->group(function () {
     Route::get('view-participants', [ParticipantController::class, 'tickets']);
     Route::delete('delete-participant/{id}', [ParticipantController::class, 'deleteParticipant']);
     Route::get('fetchparticipants/{prize_name}', [ParticipantController::class, 'fetchParticipants']);
+    Route::get('drawparticipants/{prize_name}', [ParticipantController::class, 'drawParticipants']);
 
     //Winners
     Route::post('post-winner', [WinnerController::class, 'postwinner']);
-
-
-
-
-
+    Route::get('wheel', [WheelController::class, 'spin']);
 
 
 });
@@ -77,6 +79,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
 
 });
+
+
 
 
 // Route::middleware('auth:api')->get('/user', function (Request $request) {

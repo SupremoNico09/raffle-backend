@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
+
+use App\Events\WinnerChosen;
 use App\Http\Controllers\Controller;
 use App\Models\Ticket;
 use App\Models\Winners;
@@ -18,6 +20,9 @@ class WinnerController extends Controller
         $winner->tracking_no = $request->tracking_no;
         $winner->save();
 
+
+        event(new WinnerChosen($winner));
+
         $tickets = Ticket::where('tracking_no', $tracking_no)->get();
         Ticket::destroy($tickets);
 
@@ -27,4 +32,7 @@ class WinnerController extends Controller
             'message' => 'Winner Placed Successfully',
         ]);
     }
+
+    
+    
 }

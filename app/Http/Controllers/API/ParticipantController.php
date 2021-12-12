@@ -65,4 +65,30 @@ class ParticipantController extends Controller
             ]);
         }
     }
+    public function drawParticipants($prize_name)
+    {
+        $raffles = Raffle::where('prize_name', $prize_name)->where('availability', 'Yes')->first();
+        if ($raffles) {
+            $tickets = Ticket::where('raffle_id', $raffles->id)->get();
+            if ($tickets) {
+                return response()->json([
+                    'status' => 200,
+                    'tickets_data' => [
+                        'tickets' => $tickets,
+                        'raffles' => $raffles,
+                    ]
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'No Raffle Available'
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No Such Prizes Found'
+            ]);
+        }
+    }
 }
